@@ -1,16 +1,18 @@
 #!/bin/bash
 
-source /cvmfs/sft.cern.ch/lcg/views/LCG_98python3/x86_64-centos7-gcc9-opt/setup.sh
+LCG=/cvmfs/sft.cern.ch/lcg/views/LCG_96python3/x86_64-centos7-gcc8-opt
+source ${LCG}/setup.sh
 python -m venv dask_venv
 source dask_venv/bin/activate
 
 export PYTHONPATH=""
 export PATH=${PWD}/dask_venv/bin:${PATH}
 
-export lcgprefix=/cvmfs/sft.cern.ch/lcg/views/LCG_98python3/x86_64-centos7-gcc9-opt/lib/python3.7/site-packages/
+pypackages=lib/python3.6/site-packages/
+lcgprefix=${LCG}/${pypackages}
 
-ln -sf ${lcgprefix}/pyxrootd dask_venv/lib/python3.7/site-packages/pyxrootd
-ln -sf ${lcgprefix}/XRootD dask_venv/lib/python3.7/site-packages/XRootD
+ln -sf ${lcgprefix}/pyxrootd dask_venv/${pypackages}/pyxrootd
+ln -sf ${lcgprefix}/XRootD dask_venv/${pypackages}/XRootD
 
 pip install --upgrade pip wheel --no-cache-dir
 pip install dask[dataframe] distributed coffea[dask] --no-cache-dir
